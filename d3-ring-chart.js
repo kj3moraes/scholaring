@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     node.append('circle')
         .attr('r', nodeRadius)
-        .attr('fill', '#fff')
+        .attr('fill', '#bd082c')  // Initialize as red
         .on('mouseover', handleMouseOver)
         .on('mouseout', handleMouseOut)
         .on('click', handleClick);
@@ -169,7 +169,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function getNodeColor(d) {
         const searchInput = document.getElementById('search');
         const searchTerm = searchInput.value.toLowerCase();
-        if (searchTerm === '') return '#fff';
+        
+        if (searchTerm === '') {
+            return '#bd082c';  // Always red when no search term
+        }
+        
         return (d.name.toLowerCase().includes(searchTerm) ||
                 d.year.toString().includes(searchTerm) ||
                 d.website.toLowerCase().includes(searchTerm)) ? '#bd082c' : '#fff';
@@ -187,11 +191,37 @@ document.addEventListener('DOMContentLoaded', () => {
         // Highlight nodes
         node.selectAll('circle')
             .attr('fill', d => {
+                if (searchTerm === '') {
+                    return '#bd082c';  // Always red when no search term
+                }
                 const matches = d.name.toLowerCase().includes(searchTerm) ||
                               d.year.toString().includes(searchTerm) ||
                               d.website.toLowerCase().includes(searchTerm);
                 return matches ? '#bd082c' : '#fff';
             });
+            
+        // Count total and highlighted nodes
+        const totalNodes = webringData.sites.length;
+        const highlightedNodes = searchTerm ? node.filter(d => 
+            d.name.toLowerCase().includes(searchTerm) ||
+            d.year.toString().includes(searchTerm) ||
+            d.website.toLowerCase().includes(searchTerm)
+        ).size() : 0;
+        
+        // Update stats display
+        const statsText = searchTerm 
+            ? `Sites: ${totalNodes} | Highlighted: ${highlightedNodes}`
+            : `Sites: ${totalNodes}`;
+        
+        const statsDisplay = svg.select('.stats-display');
+        statsDisplay.text(statsText);
+        
+        // Update background width based on text
+        const textWidth = statsDisplay.node().getComputedTextLength();
+        const statsBackground = svg.select('.stats-background');
+        statsBackground
+            .attr('width', textWidth + 20)
+            .attr('height', 25);
             
         if (searchTerm) {
             // Find matching nodes
@@ -273,7 +303,46 @@ document.addEventListener('DOMContentLoaded', () => {
         const newWidth = container.clientWidth;
         const newHeight = container.clientHeight;
         svg.attr('viewBox', `0 0 ${newWidth} ${newHeight}`);
+        
+        // Update stats position
+        statsDisplay.attr('y', newHeight - 10);
+        statsBackground.attr('y', newHeight - 30);
+        
         simulation.force('center', d3.forceCenter(newWidth / 2, newHeight / 2));
         simulation.alpha(0.3).restart();
     });
+
+    // After creating the svg but before creating the g element
+    const statsDisplay = svg.append('text')
+        .attr('class', 'stats-display')
+        .attr('x', 10)
+        .attr('y', height - 10)
+        .attr('fill', 'white')
+        .attr('font-family', 'sans-serif')
+        .attr('font-size', '14px');
+
+    // Create a background rectangle for the stats
+    const statsBackground = svg.append('rect')
+        .attr('class', 'stats-background')
+        .attr('fill', 'black')
+        .attr('opacity', 0.7)
+        .attr('x', 5)
+        .attr('y', height - 30)
+        .attr('rx', 5)
+        .attr('ry', 5);
+
+    // Move both elements to front
+    statsBackground.raise();
+    statsDisplay.raise();
+
+    // After creating the statsDisplay and statsBackground elements
+    // Initialize the stats display with total number of sites
+    const totalNodes = webringData.sites.length;
+    statsDisplay.text(`Sites: ${totalNodes}`);
+
+    // Set initial background width based on text
+    const textWidth = statsDisplay.node().getComputedTextLength();
+    statsBackground
+        .attr('width', textWidth + 20)
+        .attr('height', 25);
 });
