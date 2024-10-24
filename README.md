@@ -1,3 +1,6 @@
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/JusGu/uwatering.svg)
+[![W3C Validation - https://validator.nu/](https://img.shields.io/w3c-validation/default?targetUrl=https%3A%2F%2Fcs.uwatering.com%2F&label=w3c%20check
+)](https://validator.nu/?doc=https%3A%2F%2Fcs.uwatering.com%2F)
 # CS Webring
 
 This webring is inspired by the need to connect and showcase the diverse personal websites of CS students and alumni.
