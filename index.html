@@ -5,19 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CS Webring Site</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Add D3 library -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
     <header>
         <h1>cs.uwatering.com</h1>
     </header>
     <main>
-        <section id="webring">
-            <input type="text" id="search" placeholder="Search webring members...">
-            <ul id="webring-list"></ul>
-        </section>
+        <input type="text" id="search" placeholder="Search webring members...">
+        <div id="content-wrapper">
+            <section id="webring">
+                <ul id="webring-list"></ul>
+            </section>
+            <section id="webring-chart">
+                <div id="chart-container"></div>
+            </section>
+        </div>
     </main>
     <footer>
-        <img src="./icon.white.svg" alt="CS Logo">
+        <img src="./icon.red.svg" alt="CS Logo">
     </footer>
     <script>
         const webringData = {
@@ -96,5 +103,7 @@
         };
     </script>
     <script src="script.js"></script>
+    <!-- Add new script for D3 chart -->
+    <script src="d3-ring-chart.js"></script>
 </body>
 </html>
