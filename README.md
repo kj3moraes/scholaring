@@ -45,7 +45,7 @@ Add the webring widget to your website:
 ### Steps to Join
 
 1) Add the webring widget to your website HTML (shown above). Generally, you should add it to the footer.
-2) Add your information to the `webring.json` file in this format:
+2) Add your information to `webringData` in `index.html` file in this format:
    ```json
    {
      "name": "Your Name",
@@ -53,16 +53,9 @@ Add the webring widget to your website:
      "year": "2028"
    }
    ```
-3) Submit a Pull Request with:
-   - The location of the webring icon on your site
-   - Your website URL
-   - Your graduation year
+3) Submit a Pull Request
 
 For dark-themed websites, use `icon.white.svg`. Feel free to host the icon locally if you encounter HTTPS issues / styling issues.
-
-## Navigation
-
-
 
 ## Alternative Icons Sources
 - Black: `https://cs.uwatering.com/icon.black.svg`
