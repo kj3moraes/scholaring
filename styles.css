@@ -17,13 +17,13 @@ footer {
 header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 10px;
 }
 
-footer img {
-    width: 64px;
-    height: 64px;
-    filter: invert(13%) sepia(95%) saturate(5313%) hue-rotate(343deg) brightness(76%) contrast(105%);
+header img {
+    width: 48px;
+    height: 48px;
 }
 
 #search {
@@ -95,4 +95,18 @@ footer img {
     border: 0px;
     border-radius: 8px;
     pointer-events: none;
+}
+
+#add-site {
+    color: #bd082c;
+}
+
+footer {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+footer a {
+    color: #fff;
 }
