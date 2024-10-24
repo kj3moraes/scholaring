@@ -28,15 +28,22 @@ document.addEventListener('DOMContentLoaded', () => {
         .attr("class", "tooltip")
         .style("opacity", 0);
 
+    // Add unique IDs to each site
+    webringData.sites.forEach((site, index) => {
+        site.id = `node-${index}`;
+    });
+
     const simulation = d3.forceSimulation()
-        .force('link', d3.forceLink().id(d => d.name).distance(100))
-        .force('charge', d3.forceManyBody().strength(-300))
+        .force('link', d3.forceLink().id(d => d.id).distance(50)) // Changed to use id instead of name
+        .force('charge', d3.forceManyBody().strength(-100))
         .force('center', d3.forceCenter(width / 2, height / 2))
-        .force('collision', d3.forceCollide().radius(nodeRadius + 5));
+        .force('collision', d3.forceCollide().radius(nodeRadius * 1.2))
+        .alphaDecay(0.02)
+        .velocityDecay(0.3);
 
     const links = webringData.sites.map((site, index) => ({
-        source: site.name,
-        target: webringData.sites[(index + 1) % webringData.sites.length].name
+        source: site.id, // Changed to use id
+        target: webringData.sites[(index + 1) % webringData.sites.length].id // Changed to use id
     }));
 
     const link = g.append('g')
@@ -70,6 +77,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
     simulation.force('link')
         .links(links);
+
+    // Modified fitToView function
+    function fitToView() {
+        simulation.tick(30); // Run some ticks immediately
+        
+        // Calculate bounds of all nodes
+        let minX = Infinity, minY = Infinity;
+        let maxX = -Infinity, maxY = -Infinity;
+        
+        node.each(d => {
+            minX = Math.min(minX, d.x);
+            minY = Math.min(minY, d.y);
+            maxX = Math.max(maxX, d.x);
+            maxY = Math.max(maxY, d.y);
+        });
+        
+        // Add padding
+        const padding = 50;
+        minX -= padding;
+        minY -= padding;
+        maxX += padding;
+        maxY += padding;
+        
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        
+        const scale = Math.min(
+            width / (maxX - minX),
+            height / (maxY - minY)
+        ) * 0.9;
+        
+        const centerX = (minX + maxX) / 2;
+        const centerY = (minY + maxY) / 2;
+        
+        // Apply the initial transform
+        svg.call(zoom.transform, d3.zoomIdentity
+            .translate(width / 2, height / 2)
+            .scale(scale)
+            .translate(-centerX, -centerY)
+        );
+    }
+
+    // Call fitToView after a short delay
+    setTimeout(fitToView, 100);
 
     function ticked() {
         link
@@ -142,8 +193,70 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('search').addEventListener('input', updateNodeColors);
 
     function updateNodeColors() {
+        const searchTerm = document.getElementById('search').value.toLowerCase();
+        
+        // Reset all nodes to default color
         node.selectAll('circle')
-            .attr('fill', d => getNodeColor(d));
+            .attr('fill', '#fff');
+        
+        if (searchTerm) {
+            // Find matching nodes
+            const matchingNodes = node.filter(d => 
+                d.name.toLowerCase().includes(searchTerm) ||
+                d.year.toString().includes(searchTerm) ||
+                d.website.toLowerCase().includes(searchTerm)
+            );
+            
+            if (matchingNodes.size() > 0) {
+                // Highlight matching nodes
+                matchingNodes.selectAll('circle')
+                    .attr('fill', '#bd082c');
+                
+                // Calculate the bounding box of all matching nodes
+                let minX = Infinity, minY = Infinity;
+                let maxX = -Infinity, maxY = -Infinity;
+                
+                matchingNodes.each(d => {
+                    minX = Math.min(minX, d.x);
+                    minY = Math.min(minY, d.y);
+                    maxX = Math.max(maxX, d.x);
+                    maxY = Math.max(maxY, d.y);
+                });
+                
+                // Add padding
+                const padding = 100;
+                minX -= padding;
+                minY -= padding;
+                maxX += padding;
+                maxY += padding;
+                
+                // Calculate the scale and translate to focus on matching nodes
+                const width = container.clientWidth;
+                const height = container.clientHeight;
+                
+                const scale = Math.min(
+                    width / (maxX - minX),
+                    height / (maxY - minY)
+                ) * 0.9;
+                
+                const centerX = (minX + maxX) / 2;
+                const centerY = (minY + maxY) / 2;
+                
+                // Animate the transition
+                svg.transition()
+                    .duration(750)
+                    .call(zoom.transform, d3.zoomIdentity
+                        .translate(width / 2, height / 2)
+                        .scale(scale)
+                        .translate(-centerX, -centerY)
+                    );
+            }
+        } else {
+            // If search is cleared, reset the view
+            svg.transition()
+                .duration(750)
+                .call(zoom.transform, d3.zoomIdentity);
+        }
     }
 
     // Resize function to update SVG dimensions
@@ -157,4 +270,75 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Add event listener for window resize
     window.addEventListener('resize', resizeChart);
+
+    function handleSearch(searchTerm) {
+        // Reset all nodes to default color
+        node.attr("fill", d => d.children ? "#fff" : "#999");
+        
+        if (searchTerm) {
+            // Find matching nodes
+            const matchingNodes = node.filter(d => 
+                d.data.name && d.data.name.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            
+            if (matchingNodes.size() > 0) {
+                // Highlight matching nodes
+                matchingNodes.attr("fill", "red");
+                
+                // Calculate the bounding box of all matching nodes
+                let minX = Infinity, minY = Infinity;
+                let maxX = -Infinity, maxY = -Infinity;
+                
+                matchingNodes.each(function(d) {
+                    const bbox = this.getBBox();
+                    const transform = d3.zoomTransform(svg.node());
+                    const x = d.x;
+                    const y = d.y;
+                    
+                    minX = Math.min(minX, x);
+                    minY = Math.min(minY, y);
+                    maxX = Math.max(maxX, x);
+                    maxY = Math.max(maxY, y);
+                });
+                
+                // Add padding
+                const padding = 50;
+                minX -= padding;
+                minY -= padding;
+                maxX += padding;
+                maxY += padding;
+                
+                // Calculate the scale and translate to focus on matching nodes
+                const width = svg.node().getBoundingClientRect().width;
+                const height = svg.node().getBoundingClientRect().height;
+                
+                const scale = Math.min(
+                    width / (maxX - minX),
+                    height / (maxY - minY)
+                ) * 0.9; // 0.9 to add some margin
+                
+                const centerX = (minX + maxX) / 2;
+                const centerY = (minY + maxY) / 2;
+                
+                // Animate the transition
+                svg.transition()
+                    .duration(750)
+                    .call(zoom.transform, d3.zoomIdentity
+                        .translate(width / 2, height / 2)
+                        .scale(scale)
+                        .translate(-centerX, -centerY)
+                    );
+            }
+        } else {
+            // If search is cleared, reset the view
+            svg.transition()
+                .duration(750)
+                .call(zoom.transform, d3.zoomIdentity);
+        }
+    }
+
+    // Update the search input event listener
+    searchInput.addEventListener('input', (e) => {
+        handleSearch(e.target.value);
+    });
 });
