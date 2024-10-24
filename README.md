@@ -13,17 +13,38 @@ A webring for Computer Science students and alumni at the University of Waterloo
 
 ## Join the Webring
 
-Add the webring icon to your website:
-
+Add the webring widget to your website:
+#### HTML:
 ```html
-<a href="https://cs.uwatering.com/#your-website-url" target="blank">
-    <img src="https://cs.uwatering.com/icon.black.svg" alt="CS Webring"/>
-</a>
+<div style="display: flex; align-items: center; gap: 8px;">
+    <a href="https://cs.uwatering.com/#your-site-here?nav=prev">←</a>
+    <a href="https://cs.uwatering.com/#your-site-here" target="_blank">
+        <img src="https://cs.uwatering.com/icon.black.svg" alt="CS Webring" style="width: 24px; height: auto; opacity: 0.8;"/>
+    </a>
+    <a href="https://cs.uwatering.com/#your-site-here?nav=next">→</a>
+</div>
+<!-- Replace 'your-site-here' with your actual site URL -->
+```
+
+#### JSX:
+```jsx
+<div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+    <a href='https://cs.uwatering.com/#your-site-here?nav=prev'>←</a>
+    <a href='https://cs.uwatering.com/#your-site-here' target='_blank'>
+        <img
+            src='https://cs.uwatering.com/icon.black.svg'
+            alt='CS Webring'
+            style={{ width: '24px', height: 'auto', opacity: 0.8 }}
+        />
+    </a>
+    <a href='https://cs.uwatering.com/#your-site-here?nav=next'>→</a>
+</div>
+// Replace 'your-site-here' with your actual site URL
 ```
 
 ### Steps to Join
 
-1) Add the webring icon to your website HTML (shown above)
+1) Add the webring widget to your website HTML (shown above). Generally, you should add it to the footer.
 2) Add your information to the `webring.json` file in this format:
    ```json
    {
@@ -37,7 +58,11 @@ Add the webring icon to your website:
    - Your website URL
    - Your graduation year
 
-For dark-themed websites, use `icon.white.svg`. Feel free to host the icon locally if you encounter HTTPS issues.
+For dark-themed websites, use `icon.white.svg`. Feel free to host the icon locally if you encounter HTTPS issues / styling issues.
+
+## Navigation
+
+
 
 ## Alternative Icons Sources
 - Black: `https://cs.uwatering.com/icon.black.svg`
@@ -52,4 +77,3 @@ This project draws inspiration from:
 - [ECE Engineering](https://ece.engineering/)
 
 ## Made in Waterloo 🍁
-(in spirit) I actually made this in Menlo Park.

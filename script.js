@@ -50,4 +50,37 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Handle initial URL fragment without any delay
     handleUrlFragment();
+
+    // Function to handle previous and next navigation
+    function navigateWebring() {
+        const fragment = window.location.hash.slice(1); // Get the current site and nav from the URL fragment
+        const [currentSite, query] = fragment.split('?');
+        const params = new URLSearchParams(query);
+        const nav = params.get('nav');
+
+        const currentIndex = webringData.sites.findIndex(site => site.website.includes(currentSite));
+
+        if (currentIndex === -1 || !nav) return; // If the site or nav is not found, do nothing
+
+        let newIndex;
+        if (nav === 'prev') {
+            newIndex = (currentIndex === 0) ? webringData.sites.length - 1 : currentIndex - 1;
+        } else if (nav === 'next') {
+            newIndex = (currentIndex === webringData.sites.length - 1) ? 0 : currentIndex + 1;
+        }
+
+        const newSite = webringData.sites[newIndex];
+        if (newSite) {
+            // Redirect without preserving the hash
+            window.location.href = newSite.website;
+        }
+    }
+
+    // Call navigateWebring on page load if there's a nav in the URL
+    if (window.location.hash.includes('?nav=')) {
+        navigateWebring();
+    }
+
+    // Example usage: navigateWebring('left') or navigateWebring('right')
+    // You can call these functions based on user input or button clicks
 });
