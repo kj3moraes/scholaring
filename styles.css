@@ -1,0 +1,67 @@
+body {
+  background-color: black;
+  color: white;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 20px;
+}
+
+header,
+main,
+footer {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+footer img {
+    width: 64px;
+    height: 64px;
+}
+
+input,
+textarea {
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+}
+
+#search {
+  padding: 10px;
+  background-color: #333;
+  color: white;
+  border: none;
+}
+
+#webring-list,
+#recent-list {
+  border: 1px solid white;
+  list-style-type: none;
+  padding: 0;
+}
+
+#webring-list li,
+#recent-list li {
+  padding: 5px 10px;
+}
+
+#webring-list a,
+#recent-list a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+#webring-list a:hover,
+#recent-list a:hover {
+  text-decoration: underline;
+}
+
+#recent-additions {
+  margin-bottom: 30px;
+}
