@@ -1,35 +1,53 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const webringList = document.getElementById('webring-list');
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the search input element
     const searchInput = document.getElementById('search');
-    let webringEntries = webringData.sites;
+    const webringList = document.getElementById('webring-list');
 
-    webringEntries = webringEntries.map((entry, index) => ({...entry, originalIndex: index + 1}));
+    // Handle URL fragment on page load
+    function handleUrlFragment() {
+        const fragment = window.location.hash.slice(1); // Remove the # symbol
+        if (fragment) {
+            searchInput.value = decodeURIComponent(fragment);
+            filterWebring(fragment);
+            const searchEvent = new Event('input');
+            searchInput.dispatchEvent(searchEvent);
+        }
+    }
 
-    displayEntries(webringEntries);
+    // Filter webring sites based on search input
+    function filterWebring(searchTerm) {
+        const searchLower = searchTerm.toLowerCase();
+        
+        webringData.sites.forEach((site, index) => {
+            const listItem = webringList.children[index];
+            if (listItem) {
+                const matches = site.name.toLowerCase().includes(searchLower) ||
+                              site.website.toLowerCase().includes(searchLower) ||
+                              site.year.toString().includes(searchLower);  // Added year search back
+                listItem.style.display = matches ? '' : 'none';
+            }
+        });
+    }
 
-    searchInput.addEventListener('input', () => {
-        const searchTerm = searchInput.value.toLowerCase();
-        const filteredEntries = webringEntries.filter(entry => 
-            entry.name.toLowerCase().includes(searchTerm) ||
-            entry.year.toString().includes(searchTerm) ||
-            entry.website.toLowerCase().includes(searchTerm)
-        );
-        displayEntries(filteredEntries);
+    // Create and populate the webring list
+    webringData.sites.forEach((site, index) => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = site.website;
+        a.target = "_blank";
+        a.textContent = `${index + 1}. ${site.name} | ${site.website} | ${site.year}`;
+        li.appendChild(a);
+        webringList.appendChild(li);
     });
 
-    function displayEntries(entries) {
-        webringList.innerHTML = entries.map(entry => formatEntry(entry)).join('');
-    }
+    // Add event listener for search input
+    searchInput.addEventListener('input', (e) => {
+        filterWebring(e.target.value);
+    });
 
-    function formatEntry(entry) {
-        return `
-            <li>
-               <a href="${entry.website}" target="_blank">${entry.originalIndex}. ${entry.name} | ${trimUrl(entry.website)} | ${entry.year}</a>
-            </li>
-        `;
-    }
+    // Handle URL changes
+    window.addEventListener('hashchange', handleUrlFragment);
 
-    function trimUrl(url) {
-        return url.replace(/^https?:\/\//, '').replace(/\/$/, '');
-    }
+    // Handle initial URL fragment without any delay
+    handleUrlFragment();
 });
