@@ -1,4 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Colorful console message for curious developers
+    console.log(
+        "%c👋 Hey there" +
+        "\n\n%cLooks like you're poking around in the console. Why not add your site to the webring?" +
+        "\n\n%c→ https://github.com/JusGu/uwatering",
+        "font-size: 18px; font-weight: bold; color: #FF3366;",
+        "font-size: 14px; color: #00FF00;",
+        "font-size: 14px; color: #3399FF; text-decoration: underline;"
+    );
+
     // Get the search input element
     const searchInput = document.getElementById('search');
     const webringList = document.getElementById('webring-list');
