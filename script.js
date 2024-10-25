@@ -39,8 +39,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const webringList = document.getElementById('webring-list');
         webringList.innerHTML = sites.map((site, index) => {
             const displayUrl = site.website
-                .replace(/^https?:\/\/(www\.)?/, '');
-
+                .replace(/^https?:\/\/(www\.)?/, '') 
+                .replace(/\/$/, ''); 
+                
             return `
                 <li>
                     <a href="${site.website}" target="_blank">
