@@ -12,6 +12,8 @@ A webring for Computer Science students and alumni at the University of Waterloo
 [Live Site](https://cs.uwatering.com/)
 
 ## Join the Webring
+<img width="247" alt="image" src="https://github.com/user-attachments/assets/66c9e57a-c5ba-4426-b651-b9a37d74e198">
+
 
 Add the webring widget to your website:
 #### HTML:
