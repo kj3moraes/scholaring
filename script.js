@@ -37,15 +37,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Create and populate the webring list
     function createWebringList(sites) {
         const webringList = document.getElementById('webring-list');
-        webringList.innerHTML = sites.map((site, index) => {
+        webringList.innerHTML = sites.map((site) => {
             const displayUrl = site.website
                 .replace(/^https?:\/\/(www\.)?/, '') 
                 .replace(/\/$/, ''); 
                 
+            const originalIndex = webringData.sites.findIndex(s => s.website === site.website);
+                
             return `
                 <li>
                     <a href="${site.website}" target="_blank">
-                        <span class="number">${index + 1}.</span>
+                        <span class="number">${originalIndex + 1}.</span>
                         <span class="name">${site.name}</span>
                         <span class="separator">|</span>
                         <span class="website">${displayUrl}</span>
