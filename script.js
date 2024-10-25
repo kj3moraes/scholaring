@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Get the search input element
     const searchInput = document.getElementById('search');
-    const webringList = document.getElementById('webring-list');
 
     // Handle URL fragment on page load
     function handleUrlFragment() {
@@ -27,28 +26,38 @@ document.addEventListener('DOMContentLoaded', function() {
     // Filter webring sites based on search input
     function filterWebring(searchTerm) {
         const searchLower = searchTerm.toLowerCase();
-        
-        webringData.sites.forEach((site, index) => {
-            const listItem = webringList.children[index];
-            if (listItem) {
-                const matches = site.name.toLowerCase().includes(searchLower) ||
-                              site.website.toLowerCase().includes(searchLower) ||
-                              site.year.toString().includes(searchLower);  // Added year search back
-                listItem.style.display = matches ? '' : 'none';
-            }
-        });
+        const filteredSites = webringData.sites.filter(site => 
+            site.name.toLowerCase().includes(searchLower) ||
+            site.website.toLowerCase().includes(searchLower) ||
+            site.year.toString().includes(searchLower)
+        );
+        createWebringList(filteredSites);
     }
 
     // Create and populate the webring list
-    webringData.sites.forEach((site, index) => {
-        const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.href = site.website;
-        a.target = "_blank";
-        a.textContent = `${index + 1}. ${site.name} | ${site.website} | ${site.year}`;
-        li.appendChild(a);
-        webringList.appendChild(li);
-    });
+    function createWebringList(sites) {
+        const webringList = document.getElementById('webring-list');
+        webringList.innerHTML = sites.map((site, index) => {
+            const displayUrl = site.website
+                .replace(/^https?:\/\/(www\.)?/, '');
+
+            return `
+                <li>
+                    <a href="${site.website}" target="_blank">
+                        <span class="number">${index + 1}.</span>
+                        <span class="name">${site.name}</span>
+                        <span class="separator">|</span>
+                        <span class="website">${displayUrl}</span>
+                        <span class="separator">|</span>
+                        <span class="year">${site.year}</span>
+                    </a>
+                </li>
+            `;
+        }).join('');
+    }
+
+    // Initial creation of the list
+    createWebringList(webringData.sites);
 
     // Add event listener for search input
     searchInput.addEventListener('input', (e) => {
