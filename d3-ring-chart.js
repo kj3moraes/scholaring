@@ -1,5 +1,18 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const container = document.getElementById("chart-container");
+let mobileExists = false,
+  desktopExists = false;
+
+function checkIfGraphNeeded() {
+  if (window.innerWidth < 640 && !mobileExists) {
+    mobileExists = true;
+    makeGraph("chart-container-mobile");
+  } else if (window.innerWidth > 640 && !desktopExists) {
+    desktopExists = true;
+    makeGraph("chart-container");
+  }
+}
+
+function makeGraph(containerId) {
+  const container = document.getElementById(containerId);
   const width = container.clientWidth;
   const height = container.clientHeight;
 
@@ -9,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const defaultEdgeColor = "#E5E5E5";
 
   const svg = d3
-    .select("#chart-container")
+    .select(`#${containerId}`)
     .append("svg")
     .attr("width", "100%")
     .attr("height", "100%")
@@ -31,8 +44,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const tooltip = d3
     .select("body")
     .append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
+    .attr(
+      "class",
+      "bg-navy-400 px-2 text-sm font-latinMonoCondOblique text-white rounded-sm"
+    )
+    .style("opacity", 0)
+    .style("position", "fixed");
 
   webringData.sites.forEach((site, index) => {
     site.id = `node-${index}`;
@@ -140,7 +157,6 @@ document.addEventListener("DOMContentLoaded", () => {
       .attr("y1", (d) => d.source.y)
       .attr("x2", (d) => d.target.x)
       .attr("y2", (d) => d.target.y);
-
     node.attr("transform", (d) => `translate(${d.x},${d.y})`);
   }
 
@@ -167,13 +183,13 @@ document.addEventListener("DOMContentLoaded", () => {
     d3.select(this).attr("fill", highlighedNodeColor);
 
     svg.style("cursor", "pointer");
-    tooltip.transition().duration(200).style("opacity", 0.9);
-
     const trimmedUrl = d.website.replace(/^https?:\/\//, "");
+    tooltip.transition().duration(200).style("opacity", 0.9);
     tooltip
       .html(trimmedUrl)
-      .style("left", event.pageX + "px")
-      .style("top", event.pageY - 28 + "px");
+      .style("left", event.pageX + 20 + "px")
+      .style("top", event.pageY - 20 + "px")
+      .style("z-index", "30");
   }
 
   function handleMouseOut(event, d) {
@@ -374,4 +390,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Set initial background width based on text
   const textWidth = statsDisplay.node().getComputedTextLength();
   statsBackground.attr("width", textWidth + 20).attr("height", 25);
-});
+}
+
+document.addEventListener("DOMContentLoaded", checkIfGraphNeeded);
+window.addEventListener("resize", checkIfGraphNeeded);

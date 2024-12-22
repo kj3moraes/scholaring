@@ -4,6 +4,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- prevent visible alpinejs page reloading -->
+  <style>
+    [x-cloak] {
+      display: none;
+    }
+  </style>
+
+  <!-- SEO Meta Tags -->
+  <title>CS Webring</title>
+  <meta name="description" content="A webring for Computer Science students and alumni at the University of Waterloo.">
+  <meta name="keywords" content="webring, UWaterloo, Computer Science, CS, personal websites, student portfolio">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://cs.uwatering.com/">
+  <meta property="og:title" content="CS Webring">
+  <meta property="og:description"
+    content="A webring for Computer Science students and alumni at the University of Waterloo.">
+  <meta property="og:image" content="https://cs.uwatering.com/webAssets/og.png">
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://cs.uwatering.com/">
+  <meta property="twitter:title" content="CS Webring">
+  <meta property="twitter:description"
+    content="A webring for Computer Science students and alumni at the University of Waterloo.">
+  <meta property="twitter:image" content="https://cs.uwatering.com/webAssets/og.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- JS sources -->
   <link href="./output.css" rel="stylesheet" />
   <script src="//unpkg.com/alpinejs" defer></script>
   <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -37,10 +69,15 @@
           "website": "https://ivyfanchiang.ca"
         },
         {
-          "name": "Wilbur Zhang i have a really long name",
+          "name": "Wilbur Zhang",
           "year": 2026,
-          "website": "https://wilburzhangihaveareallylongwebsiteandwillmakeyoucry.com"
-        }
+          "website": "https://wilburzhang.com"
+        },
+        {
+          "name": "Ching Lam Lau",
+          "year": 2029,
+          "website": "https://chinglamlau.vercel.app"
+        },
         // ↑ ADD YOUR SITE ABOVE ↑
         // https://github.com/JusGu/uwatering
       ]
@@ -49,7 +86,6 @@
   <!-- ↑↑↑ -->
   <script src="script.js"></script>
   <script src="d3-ring-chart.js"></script>
-  <script src="d3-ring-chart-mobile.js"></script>
 </head>
 
 <body class="bg-mustard-100">
@@ -98,7 +134,7 @@
       </div>
     </div>
 
-    <footer x-data="{ open: false }"
+    <footer x-cloak x-data="{ open: true }"
       class="fixed bottom-0 left-0 w-full sm:hidden bg-white border-t border-black-800 pt-4 pb-6 px-2">
       <div @click="open = ! open" class="flex justify-between">
         <button class="font-latinMonoRegular text-b202020lack-900 flex space-x-2 items-center">
@@ -117,8 +153,8 @@
             Waterloo</a> in Ontario, Canada. If you're one of us, we welcome you with open arms. (Or in this case, open
           <a class="text-mustard-500 underline" href="">open PRs</a>).
         </p>
-        <div id="webring-chart" class="w-full border border-black-900 mt-4">
-          <div id="chart-container" class="h-[12rem]"></div>
+        <div id="webring-chart-mobile" class="w-full border border-black-900 mt-4">
+          <div id="chart-container-mobile" class="h-[12rem]"></div>
         </div>
       </div>
 
