@@ -25,13 +25,12 @@
 
 ## Widget template
 
-<figure style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
-  <img width="150" alt="image" src="https://github.com/user-attachments/assets/66c9e57a-c5ba-4426-b651-b9a37d74e198">
-  <figcaption style="font-style: italic; margin: 12px; text-align: center;">Since every website is unique, we suggest you add your own flair to the lion. We also know that design is hard, so here's a examplar to get you started:</figcaption>
-</figure>
+<img width="150" alt="image" src="https://github.com/user-attachments/assets/66c9e57a-c5ba-4426-b651-b9a37d74e198">
 
- 
+Since every website is unique, we suggest you add your own flair to the lion. We also know that design is hard, so here's a examplar to get you started:
+
 #### HTML:
+
 ```html
 <div style="display: flex; align-items: center; gap: 8px;">
     <a href="https://cs.uwatering.com/#your-site-here?nav=prev">←</a>
@@ -44,6 +43,7 @@
 ```
 
 #### JSX:
+
 ```jsx
 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
     <a href='https://cs.uwatering.com/#your-site-here?nav=prev'>←</a>
