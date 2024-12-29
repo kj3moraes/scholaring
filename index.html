@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="./css/output.css" rel="stylesheet" />
 
   <!-- prevent visible alpinejs page reloading -->
   <style>
@@ -33,10 +34,9 @@
   <meta property="twitter:image" content="https://cs.uwatering.com/webAssets/og.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/x-icon" href="./webAssets/favicon.ico">
 
   <!-- JS sources -->
-  <link href="./output.css" rel="stylesheet" />
   <script src="//unpkg.com/alpinejs" defer></script>
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <!-- ↓↓↓ OPEN THIS GUY UP ↓↓↓ -->
@@ -100,14 +100,14 @@
     };
   </script>
   <!-- ↑↑↑ -->
-  <script src="script.js"></script>
-  <script src="d3-ring-chart.js"></script>
+  <script src="./javascript/script.js"></script>
+  <script src="./javascript/d3-ring-chart.js"></script>
 </head>
 
 <body class="bg-mustard-100">
   <main class=" text-black-900 px-2 py-6 sm:p-6 sm:min-h-[100vh] sm:w-[100vw] overflow-x-hidden">
     <header class="hidden sm:block">
-      <img src="webAssets/logoOnWhite.svg" />
+      <img src="webAssets/logoOnWhite.svg" alt="Webring light theme logo" />
     </header>
     <div class="sm:hidden fixed top-6 left-0 w-full px-2">
       <input type="text" id="search-mobile" placeholder="Search by name, year or url..."
@@ -119,12 +119,11 @@
         <a class="text-mustard-500 underline" href="https://uwaterloo.ca/" target="_blank">University of Waterloo</a>
         in Ontario, Canada. This is an ongoing project to document one of the most talented student bodies in the world,
         all while making them more visible to the public.
-
+      </p>
       <p class="hidden sm:block font-latinRoman mt-4 leading-tight">
         If you're one of us, we welcome you with open arms
         (or in this case, open
         <a class="text-mustard-500 underline" href="https://github.com/JusGu/uwatering">open PRs</a>).
-      </p>
       </p>
       <div>
         <div class="grid grid-cols-12 sm:grid-cols-6 gap-3 sm:gap-6 mb-6 mt-16">
@@ -140,8 +139,6 @@
       </div>
     </div>
 
-
-
     <div class="hidden fixed bottom-0 right-0 z-10 w-full p-6 lg:w-1/2 sm:flex flex-col space-y-2">
       <input type="text" id="search" placeholder="Search by name, year or url..."
         class="font-latinMonoCaps px-4 py-2 border border-navy-400/50" />
@@ -150,11 +147,11 @@
       </div>
     </div>
 
-    <footer x-cloak x-data="{ open: true }"
+    <footer x-data="{ open: true }"
       class="fixed bottom-0 left-0 w-full sm:hidden bg-white border-t border-black-800 pt-4 pb-6 px-2">
       <div @click="open = ! open" class="flex justify-between">
         <button class="font-latinMonoRegular text-b202020lack-900 flex space-x-2 items-center">
-          <img src="webAssets/icons/expand.svg" />
+          <img src="webAssets/icons/expand.svg" alt="Expand info symbol" />
           <span x-text="open ? 'CLOSE' : 'MORE INFO'"></span>
         </button>
         <div class="flex space-x-4 leading-none">
@@ -177,7 +174,7 @@
         </div>
       </div>
 
-      <img src="webAssets/logoOnWhite.svg" class="mt-8" />
+      <img src="webAssets/logoOnWhite.svg" class="mt-4" alt="Webring light theme logo" />
     </footer>
 
     <div class="hidden sm:flex fixed top-6 right-6 flex-col itembs-end leading-none z-10">

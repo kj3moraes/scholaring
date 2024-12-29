@@ -2,21 +2,35 @@
 [![W3C Validation - https://validator.nu/](https://img.shields.io/w3c-validation/default?targetUrl=https%3A%2F%2Fcs.uwatering.com%2F&label=w3c%20check
 )](https://validator.nu/?doc=https%3A%2F%2Fcs.uwatering.com%2F)
 ![GitHub stars](https://img.shields.io/github/stars/JusGu/uwatering.svg?style=social)
-<h1 style="display: flex; align-items: center; gap: 10px;">
-<img src="./icon.red.svg" alt="CS Logo" height="32px">
-CS Webring
-</h1>
-
-A webring for Computer Science students and alumni at the University of Waterloo.
-
-[Live Site](https://cs.uwatering.com/)
-
-## Join the Webring
-<img width="247" alt="image" src="https://github.com/user-attachments/assets/66c9e57a-c5ba-4426-b651-b9a37d74e198">
+<figure>
+  <img src="./webAssets//og.png" alt="Thumbnail logo">
+  <figcaption style="text-align: center; font-style: italic;">
+    A webring for Computer Science students and alumni at the University of Waterloo in Ontario, Canada. If you're one of us, we welcome you with open arms. Visit our live site <a href="https://cs.uwatering.com">here</a>
+  </figcaption>
+</figure>
 
 
-Add the webring widget to your website:
+## Joining the Webring
+
+1) Add the webring widget to your website HTML ([template below](#widget-template)). Generally, you should add it to the footer.
+2) Fork this repo and add your information to the **BOTTOM** of `webringData[]` in `index.html` following this format:
+   ```json
+   {
+     "name": "Your Name",
+     "website": "https://your-website.com",
+     "year": "20XX"
+   }
+   ```
+3) Submit a Pull Request! We'll try to review as fast as we can.
+
+## Widget template
+
+<img width="150" alt="image" src="https://github.com/user-attachments/assets/66c9e57a-c5ba-4426-b651-b9a37d74e198">
+
+Since every website is unique, we suggest you add your own flair to the lion. We also know that design is hard, so here's a examplar to get you started:
+
 #### HTML:
+
 ```html
 <div style="display: flex; align-items: center; gap: 8px;">
     <a href="https://cs.uwatering.com/#your-site-here?nav=prev">←</a>
@@ -29,6 +43,7 @@ Add the webring widget to your website:
 ```
 
 #### JSX:
+
 ```jsx
 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
     <a href='https://cs.uwatering.com/#your-site-here?nav=prev'>←</a>
@@ -43,32 +58,32 @@ Add the webring widget to your website:
 </div>
 // Replace 'your-site-here' with your actual site URL
 ```
-
-### Steps to Join
-
-1) Add the webring widget to your website HTML (shown above). Generally, you should add it to the footer.
-2) Add your information to `webringData` in `index.html` file in this format:
-   ```json
-   {
-     "name": "Your Name",
-     "website": "https://your-website.com",
-     "year": "2028"
-   }
-   ```
-3) Submit a Pull Request
-
 For dark-themed websites, use `icon.white.svg`. Feel free to host the icon locally if you encounter HTTPS issues / styling issues.
 
 ## Alternative Icons Sources
+If none of these still don't quite work for your color theme, feel free to make your own.
 - Black: `https://cs.uwatering.com/icon.black.svg`
 - White: `https://cs.uwatering.com/icon.white.svg`
 - Red: `https://cs.uwatering.com/icon.red.svg`
 
+## Q&A
+
+#### *I'm not in CS. Can I still join?*
+
+> We're honoured that you're interested in us! If you're a student in UWaterloo, consider joining the [SE Webring](https://se-webring.xyz/) and [ECE Webring](https://ece.engineering/) if you're in these aforementioned programs. We promise they'll also take good care of you :)
+>
+> If none of these are a fit, make your own! Webrings are a fantastic way to find new people, and don't take much technical skill to create.
+
+#### *Do you accept alumni and post-grad students?*
+
+> Yep, as long as you studied Computer Science or are currently studying it
+
+#### *What about minors, double degrees (ie CS BBA), etc?*
+
+> 👍
+
 ## Credits & Inspiration
 
-This project draws inspiration from:
-- [XXIIVV Webring](https://webring.xxiivv.com/)
-- [SE Webring](https://se-webring.xyz/)
-- [ECE Engineering](https://ece.engineering/)
+This project draws inspiration from the folks at [XXIIVV Webring](https://webring.xxiivv.com/). We're also good friends with our fellow students at the [SE Webring](https://se-webring.xyz/) and [ECE Webring](https://ece.engineering/)! 
 
-## Made in Waterloo 🍁
+Justin and Wilbur currently maintain the site, so if you see any bugs please let us know by making an issue. We'll try to respond as fast as we can 🤞
