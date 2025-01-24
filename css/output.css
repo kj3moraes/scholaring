@@ -1010,7 +1010,7 @@ video {
   transition-duration: 150ms;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 1024px) {
   .sm\:-right-96 {
     right: -24rem;
   }
