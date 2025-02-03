@@ -11,33 +11,62 @@ let logConsoleMessage = () => {
 let createWebringList = (sites) => {
   const webringList = document.getElementById("webring-list");
   webringList.innerHTML = "";
-  sites.forEach((site) => {
+  
+  let firstHighlightedItem = null;
+  
+  webringData.sites.forEach((site) => {
     const displayUrl = site.website
       .replace(/^https?:\/\/(www\.)?/, "")
       .replace(/\/$/, "");
 
     const listItem = document.createElement("div");
     listItem.className = "grid grid-cols-12 sm:grid-cols-6 gap-3 sm:gap-6";
+    const isSearchItem = sites.includes(site) && sites.length !== webringData.sites.length;
+    if (isSearchItem) {
+      listItem.className += " bg-mustard-500";
+    }
+
+    if (firstHighlightedItem === null && isSearchItem) {
+      firstHighlightedItem = listItem;
+    }
 
     const name = document.createElement("span");
     name.className = "col-span-5 sm:col-span-3 font-latinRomanCaps truncate";
     name.textContent = site.name;
+    if (isSearchItem) {
+      name.className += " text-mustard-100"
+    }
 
     const year = document.createElement("span");
     year.className = "col-span-2 sm:col-span-1 text-right font-latinRoman";
     year.textContent = site.year;
+    if (isSearchItem) {
+      year.className += " text-mustard-100"
+    }
 
     const link = document.createElement("a");
     link.href = site.website;
     link.className =
-      "col-span-5 sm:col-span-2 font-latinMonoRegular text-mustard-500 underline truncate";
+      "col-span-5 sm:col-span-2 font-latinMonoRegular underline truncate";
     link.textContent = displayUrl;
+    if (isSearchItem) {
+      link.className += " text-mustard-100"
+    } else {
+      link.className += " text-mustard-500"
+    }
 
     listItem.appendChild(name);
     listItem.appendChild(year);
     listItem.appendChild(link);
     webringList.appendChild(listItem);
   });
+
+  // Only scroll if there's a highlighted item
+  if (firstHighlightedItem) {
+    setTimeout(() => {
+      firstHighlightedItem.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 100);
+  }
 };
 function handleUrlFragment(searchInput) {
   const fragment = window.location.hash.slice(1); // Remove the # symbol

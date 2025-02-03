@@ -859,6 +859,11 @@ video {
   background-color: rgb(255 252 247 / var(--tw-bg-opacity, 1));
 }
 
+.text-mustard-100 {
+  --tw-text-opacity: 1;
+  color: rgb(255 252 247 / var(--tw-bg-opacity, 1));
+}
+
 .bg-navy-400 {
   --tw-bg-opacity: 1;
   background-color: rgb(73 119 161 / var(--tw-bg-opacity, 1));
@@ -987,6 +992,10 @@ video {
 .text-mustard-500 {
   --tw-text-opacity: 1;
   color: rgb(178 101 0 / var(--tw-text-opacity, 1));
+}
+
+.bg-mustard-500 {
+  background-color: rgb(178 101 0 / var(--tw-bg-opacity, 1));
 }
 
 .text-white {

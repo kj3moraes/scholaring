@@ -41,16 +41,6 @@ function makeGraph(containerId) {
 
   svg.call(zoom);
 
-  const tooltip = d3
-    .select("body")
-    .append("div")
-    .attr(
-      "class",
-      "bg-navy-400 px-2 text-sm font-latinMonoCondOblique text-white rounded-sm"
-    )
-    .style("opacity", 0)
-    .style("position", "fixed");
-
   webringData.sites.forEach((site, index) => {
     site.id = `node-${index}`;
   });
@@ -63,12 +53,12 @@ function makeGraph(containerId) {
         .forceLink()
         .id((d) => d.id)
         .distance(100)
-    ) // Increased from 50 to 100
-    .force("charge", d3.forceManyBody().strength(-100)) // Increased repulsion from -100 to -200
+    )
+    .force("charge", d3.forceManyBody().strength(-100))
     .force("center", d3.forceCenter(width / 2, height / 2))
-    .force("collision", d3.forceCollide().radius(nodeRadius * 2)) // Increased from 1.2 to 2
-    .alphaDecay(0.02) // Increased from 0.01 to 0.02 for less momentum
-    .velocityDecay(0.4); // Increased from 0.3 to 0.4 for more damping
+    .force("collision", d3.forceCollide().radius(nodeRadius * 2))
+    .alphaDecay(0.02)
+    .velocityDecay(0.4);
 
   const links = webringData.sites.map((site, index) => ({
     source: site.id,
@@ -107,11 +97,20 @@ function makeGraph(containerId) {
     .on("mouseout", handleMouseOut)
     .on("click", handleClick);
 
+  // Add labels for nodes
+  node
+    .append("text")
+    .attr("class", "font-latinMonoCondOblique")
+    .attr("dx", 12)
+    .attr("dy", 4)
+    .text(d => d.website.replace(/^https?:\/\//, ""))
+    .attr("fill", "#4F587C")
+    .style("font-size", "12px");
+
   simulation.nodes(webringData.sites).on("tick", ticked);
 
   simulation.force("link").links(links);
 
-  // Add fitToView function definition earlier
   function fitToView() {
     let minX = Infinity,
       minY = Infinity;
@@ -134,7 +133,7 @@ function makeGraph(containerId) {
     const width = container.clientWidth;
     const height = container.clientHeight;
 
-    const scale = Math.min(width / (maxX - minX), height / (maxY - minY)) * 0.7; // Reduced from 0.9 to 0.7 for a more zoomed-out view
+    const scale = Math.min(width / (maxX - minX), height / (maxY - minY)) * 0.7;
 
     const centerX = (minX + maxX) / 2;
     const centerY = (minY + maxY) / 2;
@@ -181,21 +180,12 @@ function makeGraph(containerId) {
 
   function handleMouseOver(event, d) {
     d3.select(this).attr("fill", highlighedNodeColor);
-
     svg.style("cursor", "pointer");
-    const trimmedUrl = d.website.replace(/^https?:\/\//, "");
-    tooltip.transition().duration(200).style("opacity", 0.9);
-    tooltip
-      .html(trimmedUrl)
-      .style("left", event.pageX + 20 + "px")
-      .style("top", event.pageY - 20 + "px")
-      .style("z-index", "30");
   }
 
   function handleMouseOut(event, d) {
     d3.select(this).attr("fill", getNodeColor(d));
     svg.style("cursor", "move");
-    tooltip.transition().duration(500).style("opacity", 0);
   }
 
   function handleClick(event, d) {
@@ -217,16 +207,13 @@ function makeGraph(containerId) {
     }
   }
 
-  // Update node colors when search input changes
   document.getElementById("search").addEventListener("input", (e) => {
     highlightAndZoomToNodes(e.target.value);
   });
 
-  // Add this function near the top of the file
   function highlightAndZoomToNodes(searchTerm) {
     searchTerm = searchTerm.toLowerCase();
 
-    // Highlight nodes
     node.selectAll("circle").attr("fill", (d) => {
       if (searchTerm === "") {
         return defaultNodeColor;
@@ -238,7 +225,6 @@ function makeGraph(containerId) {
       return matches ? highlighedNodeColor : defaultNodeColor;
     });
 
-    // Count total and highlighted nodes
     const totalNodes = webringData.sites.length;
     const highlightedNodes = searchTerm
       ? node
@@ -251,7 +237,6 @@ function makeGraph(containerId) {
           .size()
       : 0;
 
-    // Update stats display
     const statsText = searchTerm
       ? `Sites: ${totalNodes} | Highlighted: ${highlightedNodes}`
       : `Sites: ${totalNodes}`;
@@ -259,13 +244,11 @@ function makeGraph(containerId) {
     const statsDisplay = svg.select("#stats-display");
     statsDisplay.text(statsText);
 
-    // Update background width based on text
     const textWidth = statsDisplay.node().getComputedTextLength();
     const statsBackground = svg.select("#stats-background");
     statsBackground.attr("width", textWidth + 20).attr("height", 25);
 
     if (searchTerm) {
-      // Find matching nodes
       const matchingNodes = node.filter(
         (d) =>
           d.name.toLowerCase().includes(searchTerm) ||
@@ -274,7 +257,6 @@ function makeGraph(containerId) {
       );
 
       if (matchingNodes.size() > 0) {
-        // Calculate bounds for zooming
         let minX = Infinity,
           minY = Infinity;
         let maxX = -Infinity,
@@ -299,7 +281,6 @@ function makeGraph(containerId) {
         const centerX = (minX + maxX) / 2;
         const centerY = (minY + maxY) / 2;
 
-        // Zoom to the matching nodes
         svg
           .transition()
           .duration(750)
@@ -312,10 +293,10 @@ function makeGraph(containerId) {
           );
       }
     } else {
-      fitToView(); // Reset view if no search term
+      fitToView();
     }
   }
-  // Add a hash change listener
+
   window.addEventListener("hashchange", () => {
     const hash = window.location.hash.slice(1);
     if (hash) {
@@ -325,7 +306,6 @@ function makeGraph(containerId) {
     }
   });
 
-  // Handle initial hash on load
   if (window.location.hash) {
     const hash = window.location.hash.slice(1);
     setTimeout(() => {
@@ -333,23 +313,20 @@ function makeGraph(containerId) {
     }, 2000);
   }
 
-  // Call fitToView after simulation has settled a bit
   simulation.on("tick", () => {
     ticked();
     if (simulation.alpha() < 0.1) {
       simulation.alphaTarget(0);
       fitToView();
-      simulation.on("tick", ticked); // Reset to just ticking
+      simulation.on("tick", ticked);
     }
   });
 
-  // Resize handler
   window.addEventListener("resize", () => {
     const newWidth = container.clientWidth;
     const newHeight = container.clientHeight;
     svg.attr("viewBox", `0 0 ${newWidth} ${newHeight}`);
 
-    // Update stats position
     statsDisplay.attr("y", newHeight - 10);
     statsBackground.attr("y", newHeight - 30);
 
@@ -357,7 +334,6 @@ function makeGraph(containerId) {
     simulation.alpha(0.3).restart();
   });
 
-  // After creating the svg but before creating the g element
   const statsDisplay = svg
     .append("text")
     .attr("class", "font-latinMonoCondOblique italic")
@@ -367,7 +343,6 @@ function makeGraph(containerId) {
     .attr("fill", "white")
     .attr("font-size", "1rem");
 
-  // Create a background rectangle for the stats
   const statsBackground = svg
     .append("rect")
     .attr("id", "stats-background")
@@ -378,16 +353,12 @@ function makeGraph(containerId) {
     .attr("rx", 5)
     .attr("ry", 5);
 
-  // Move both elements to front
   statsBackground.raise();
   statsDisplay.raise();
 
-  // After creating the statsDisplay and statsBackground elements
-  // Initialize the stats display with total number of sites
   const totalNodes = webringData.sites.length;
   statsDisplay.text(`Sites: ${totalNodes}`);
 
-  // Set initial background width based on text
   const textWidth = statsDisplay.node().getComputedTextLength();
   statsBackground.attr("width", textWidth + 20).attr("height", 25);
 }
