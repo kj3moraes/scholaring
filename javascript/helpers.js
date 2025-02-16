@@ -9,9 +9,6 @@ const formatUrl = (url) => {
 const fuzzyMatch = (searchTerm, target) => {
   const searchTermFormatted = formatUrl(searchTerm);
   const targetFormatted = formatUrl(target);
-  return (
-    searchTermFormatted.includes(targetFormatted) ||
-    targetFormatted.includes(searchTermFormatted)
-  );
+  return searchTermFormatted.includes(targetFormatted);
 };
 export { fuzzyMatch, formatUrl };
