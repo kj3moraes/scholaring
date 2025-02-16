@@ -1,3 +1,5 @@
+import { fuzzyMatch, formatUrl } from "./helpers.js";
+
 let logConsoleMessage = () => {
   console.log(
     "%c👋 Hey there" +
@@ -8,20 +10,20 @@ let logConsoleMessage = () => {
     "font-size: 14px; color: #3399FF; text-decoration: underline;"
   );
 };
-let createWebringList = (sites) => {
+let createWebringList = (matchedSiteIndices) => {
   const webringList = document.getElementById("webring-list");
   webringList.innerHTML = "";
-  
+
   let firstHighlightedItem = null;
-  
-  webringData.sites.forEach((site) => {
-    const displayUrl = site.website
-      .replace(/^https?:\/\/(www\.)?/, "")
-      .replace(/\/$/, "");
+
+  webringData.sites.forEach((site, index) => {
+    const displayUrl = formatUrl(site.website);
 
     const listItem = document.createElement("div");
     listItem.className = "grid grid-cols-12 sm:grid-cols-6 gap-3 sm:gap-6";
-    const isSearchItem = sites.includes(site) && sites.length !== webringData.sites.length;
+    const isSearchItem =
+      matchedSiteIndices.includes(index) &&
+      matchedSiteIndices.length !== webringData.sites.length;
     if (isSearchItem) {
       listItem.className += " bg-mustard-500";
     }
@@ -79,28 +81,42 @@ function handleUrlFragment(searchInput) {
 }
 function filterWebring(searchTerm) {
   const searchLower = searchTerm.toLowerCase();
-  const filteredSites = webringData.sites.filter(
-    (site) =>
+  const matchedSiteIndices = [];
+  webringData.sites.forEach((site, index) => {
+    if (
       site.name.toLowerCase().includes(searchLower) ||
-      site.website.toLowerCase().includes(searchLower) ||
+      fuzzyMatch(site.website.toLowerCase(), searchLower) ||
       site.year.toString().includes(searchLower)
-  );
-  createWebringList(filteredSites);
+    ) {
+      matchedSiteIndices.push(index);
+    }
+  });
+  createWebringList(matchedSiteIndices);
 }
 let navigateWebring = () => {
   // https://cs.uwatering.com/#your-site-here?nav=next OR
   // https://cs.uwatering.com/#your-site-here?nav=prev
   const fragment = window.location.hash.slice(1); // #your-site-here?nav=
   if (!fragment.includes("?")) return;
+
   const [currentSite, query] = fragment.split("?");
   const params = new URLSearchParams(query);
   const nav = params.get("nav");
   if (!nav || !["next", "prev"].includes(nav)) return;
 
-  const currIndex = webringData.sites.findIndex((site) =>
-    site.website.includes(currentSite)
+  const match = webringData.sites.filter((site) =>
+    fuzzyMatch(currentSite, site.website)
   );
-  if (currIndex === -1) return;
+  if (match.length === 0) return;
+  if (match.length > 1) {
+    throw new Error(
+      `Cannot calculate navigation state because mutiple URLs matched ${currentSite}`
+    );
+  }
+
+  const currIndex = webringData.sites.findIndex((site) =>
+    fuzzyMatch(currentSite, site.website)
+  );
   const increment = nav === "next" ? 1 : -1;
   let newIndex = (currIndex + increment) % webringData.sites.length;
   if (newIndex < 0) newIndex = webringData.sites.length - 1;
