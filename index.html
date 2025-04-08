@@ -224,7 +224,7 @@
           <span
             class="col-span-5 sm:col-span-2 text-left font-latinRomanDunhillOblique text-burgundy-500 text-lg italic">URL</span>
         </div>
-        <div class="w-full flex-flex-col space-y-1 text-sm sm:text-base" id="webring-list">
+        <div class="w-full flex-flex-col space-y-1 text-sm sm:text-base mb-24 sm:mb-0" id="webring-list">
         </div>
       </div>
     </div>
@@ -238,7 +238,7 @@
     </div>
 
     <footer x-data="{ open: true }"
-      class="fixed bottom-0 left-0 w-full sm:hidden bg-white border-t border-black-800 pt-4 pb-6 px-2">
+      class="fixed bottom-0 left-0 w-full sm:hidden bg-white border-t border-black-800 pt-4 pb-3 px-2">
       <div @click="open = ! open" class="flex justify-between">
         <button class="font-latinMonoRegular text-b202020lack-900 flex space-x-2 items-center">
           <img src="webAssets/icons/expand.svg" alt="Expand info symbol" />
@@ -252,7 +252,7 @@
         </div>
       </div>
 
-      <div x-show="open" class="w-full mt-8">
+      <div x-show="open" class="w-full mt-8 mb-6">
         <p class="w-full font-latinMonoRegular leading-none">
           We are computer science students and alumni studying at the <a class="text-mustard-500 underline"
             href="https://uwaterloo.ca/">University of
@@ -264,7 +264,7 @@
         </div>
       </div>
 
-      <img src="webAssets/logoOnWhite.svg" class="mt-4" alt="Webring light theme logo" />
+      <img src="webAssets/logoOnWhite.svg" class="mt-2 h-6" alt="Webring light theme logo" />
     </footer>
 
     <div class="hidden sm:flex fixed top-6 right-6 flex-col itembs-end leading-none z-10">
