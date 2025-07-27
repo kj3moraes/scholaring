@@ -24,6 +24,7 @@ module.exports = {
           500: "#A855F7",
           400: "#C084FC",
           100: "#F3E8FF",
+          50: "#FAF5FF",
         },
         burgundy: {
           500: "#B52828",
