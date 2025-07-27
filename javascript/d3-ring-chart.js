@@ -200,7 +200,7 @@ function makeGraph(containerId) {
       return defaultNodeColor;
     } else {
       return d.name.toLowerCase().includes(searchTerm) ||
-        d.year.toString().includes(searchTerm) ||
+        d.cohort.toLowerCase().includes(searchTerm) ||
         d.website.toLowerCase().includes(searchTerm)
         ? highlighedNodeColor
         : defaultNodeColor;
@@ -220,7 +220,7 @@ function makeGraph(containerId) {
       }
       const matches =
         d.name.toLowerCase().includes(searchTerm) ||
-        d.year.toString().includes(searchTerm) ||
+        d.cohort.toLowerCase().includes(searchTerm) ||
         d.website.toLowerCase().includes(searchTerm);
       return matches ? highlighedNodeColor : defaultNodeColor;
     });
@@ -231,7 +231,7 @@ function makeGraph(containerId) {
           .filter(
             (d) =>
               d.name.toLowerCase().includes(searchTerm) ||
-              d.year.toString().includes(searchTerm) ||
+              d.cohort.toLowerCase().includes(searchTerm) ||
               d.website.toLowerCase().includes(searchTerm)
           )
           .size()
@@ -252,7 +252,7 @@ function makeGraph(containerId) {
       const matchingNodes = node.filter(
         (d) =>
           d.name.toLowerCase().includes(searchTerm) ||
-          d.year.toString().includes(searchTerm) ||
+          d.cohort.toLowerCase().includes(searchTerm) ||
           d.website.toLowerCase().includes(searchTerm)
       );
 

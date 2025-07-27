@@ -3,9 +3,9 @@
 ![GitHub stars](https://img.shields.io/github/stars/JusGu/uwatering.svg?style=social)
 
 <figure>
-  <img src="./webAssets//og.png" alt="Thumbnail logo">
+  <img src="./webAssets/Banner.png" alt="Thumbnail logo">
   <figcaption style="text-align: center; font-style: italic;">
-    A webring for Computer Science students and alumni at the University of Waterloo in Ontario, Canada. If you're one of us, we welcome you with open arms. Visit our live site <a href="https://cs.uwatering.com">here</a>.
+    A webring for the Cansbridge scholars. If you're a Scholar, feel free to join in by making a PR.</a>.
   </figcaption>
 </figure>
 
@@ -16,8 +16,8 @@
    ```json
    {
      "name": "Your Name",
+     "cohort": "Cohort Name"
      "website": "https://your-website.com",
-     "year": "20XX"
    }
    ```
 3. Submit a Pull Request! We'll try to review as fast as we can.
@@ -68,24 +68,8 @@ For dark-themed websites, use `icon.white.svg`. Feel free to host the icon local
 
 If none of these quite work for you, feel free to make your own. If you're using React, start with [icon.custom.tsx](./icon.custom.tsx).
 
-## Q&A
-
-#### _I'm not in CS. Can I still join?_
-
-> We're honoured that you're interested in us! If you're a student in UWaterloo, consider joining the [SE Webring](https://se-webring.xyz/) and [ECE Webring](https://ece.engineering/) if you're in these aforementioned programs. We promise they'll also take good care of you :)
->
-> If none of these are a fit, make your own! Webrings are a fantastic way to find new people, and don't take much technical skill to create.
-
-#### _Do you accept alumni and post-grad students?_
-
-> Yep, as long as you studied Computer Science or are currently studying it
-
-#### _What about minors, double degrees (ie CS BBA), etc?_
-
-> 👍
-
 ## Credits & Inspiration
 
-This project draws inspiration from the folks at [XXIIVV Webring](https://webring.xxiivv.com/). We're also good friends with our fellow students at the [SE Webring](https://se-webring.xyz/) and [ECE Webring](https://ece.engineering/)!
+This project is inspired by and forked from [UWCS Webring](https://cs.uwatering.com/). Their Github is over [here](https://github.com/JusGu/uwatering?tab=readme-ov-file). I've based this implementation of theirs, but with a slight twist for the Cansbridge Scholars. 
 
-Justin and Wilbur currently maintain the site, so if you see any bugs please let us know by making an issue. We'll try to respond as fast as we can 🤞
+Keane currently maintains this site, so if you see any bugs please let me know by making an issue on here.

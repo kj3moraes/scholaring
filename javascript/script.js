@@ -4,7 +4,7 @@ let logConsoleMessage = () => {
   console.log(
     "%c👋 Hey there" +
       "\n\n%cLooks like you're poking around in the console. Why not add your site to the webring?" +
-      "\n\n%c→ https://github.com/JusGu/uwatering",
+      "\n\n%c→ https://github.com/kj3moraes/scholaring",
     "font-size: 18px; font-weight: bold; color: #FF3366;",
     "font-size: 14px; color: #00FF00;",
     "font-size: 14px; color: #3399FF; text-decoration: underline;"
@@ -25,7 +25,7 @@ let createWebringList = (matchedSiteIndices) => {
       matchedSiteIndices.includes(index) &&
       matchedSiteIndices.length !== webringData.sites.length;
     if (isSearchItem) {
-      listItem.className += " bg-mustard-500";
+      listItem.className += " bg-purple-500";
     }
 
     if (firstHighlightedItem === null && isSearchItem) {
@@ -36,14 +36,14 @@ let createWebringList = (matchedSiteIndices) => {
     name.className = "col-span-5 sm:col-span-3 font-latinRomanCaps truncate";
     name.textContent = site.name;
     if (isSearchItem) {
-      name.className += " text-mustard-100"
+      name.className += " text-purple-100"
     }
 
-    const year = document.createElement("span");
-    year.className = "col-span-2 sm:col-span-1 text-right font-latinRoman";
-    year.textContent = site.year;
+    const cohort = document.createElement("span");
+    cohort.className = "col-span-2 sm:col-span-1 text-right font-latinRoman";
+    cohort.textContent = site.cohort;
     if (isSearchItem) {
-      year.className += " text-mustard-100"
+      cohort.className += " text-purple-100"
     }
 
     const link = document.createElement("a");
@@ -52,13 +52,13 @@ let createWebringList = (matchedSiteIndices) => {
       "col-span-5 sm:col-span-2 font-latinMonoRegular underline truncate";
     link.textContent = displayUrl;
     if (isSearchItem) {
-      link.className += " text-mustard-100"
+      link.className += " text-purple-100"
     } else {
-      link.className += " text-mustard-500"
+      link.className += " text-purple-500"
     }
 
     listItem.appendChild(name);
-    listItem.appendChild(year);
+    listItem.appendChild(cohort);
     listItem.appendChild(link);
     webringList.appendChild(listItem);
   });
@@ -85,8 +85,8 @@ function filterWebring(searchTerm) {
   webringData.sites.forEach((site, index) => {
     if (
       site.name.toLowerCase().includes(searchLower) ||
-      fuzzyMatch(site.website.toLowerCase(), searchLower) ||
-      site.year.toString().includes(searchLower)
+      site.cohort.toLowerCase().includes(searchLower) ||
+      fuzzyMatch(site.website.toLowerCase(), searchLower)
     ) {
       matchedSiteIndices.push(index);
     }
