@@ -25,7 +25,7 @@ let createWebringList = (matchedSiteIndices) => {
       matchedSiteIndices.includes(index) &&
       matchedSiteIndices.length !== webringData.sites.length;
     if (isSearchItem) {
-      listItem.className += " bg-mustard-500";
+      listItem.className += " bg-purple-500";
     }
 
     if (firstHighlightedItem === null && isSearchItem) {
@@ -36,14 +36,14 @@ let createWebringList = (matchedSiteIndices) => {
     name.className = "col-span-5 sm:col-span-3 font-latinRomanCaps truncate";
     name.textContent = site.name;
     if (isSearchItem) {
-      name.className += " text-mustard-100"
+      name.className += " text-purple-100"
     }
 
     const cohort = document.createElement("span");
     cohort.className = "col-span-2 sm:col-span-1 text-right font-latinRoman";
     cohort.textContent = site.cohort;
     if (isSearchItem) {
-      cohort.className += " text-mustard-100"
+      cohort.className += " text-purple-100"
     }
 
     const link = document.createElement("a");
@@ -52,9 +52,9 @@ let createWebringList = (matchedSiteIndices) => {
       "col-span-5 sm:col-span-2 font-latinMonoRegular underline truncate";
     link.textContent = displayUrl;
     if (isSearchItem) {
-      link.className += " text-mustard-100"
+      link.className += " text-purple-100"
     } else {
-      link.className += " text-mustard-500"
+      link.className += " text-purple-500"
     }
 
     listItem.appendChild(name);

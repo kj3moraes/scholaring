@@ -20,6 +20,11 @@ module.exports = {
           400: "#DAAD30",
           100: "#FFFCF7",
         },
+        purple: {
+          500: "#A855F7",
+          400: "#C084FC",
+          100: "#F3E8FF",
+        },
         burgundy: {
           500: "#B52828",
           400: "#CD1543",
